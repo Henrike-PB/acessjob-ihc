@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AcessJob — Sitemap & Wireframe | Desafio IHC</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f4f8; color: #222; }
+
+  /* ── CAPA ── */
+  .cover {
+    background: linear-gradient(135deg, #1E5FA8 0%, #2E9CCA 100%);
+    color: white;
+    text-align: center;
+    padding: 60px 40px;
+    page-break-after: always;
+  }
+  .cover h1 { font-size: 2.8rem; margin-bottom: 8px; }
+  .cover h2 { font-size: 1.6rem; font-weight: 400; margin-bottom: 30px; opacity: .85; }
+  .cover .badge {
+    display: inline-block;
+    background: rgba(255,255,255,.18);
+    border: 2px solid rgba(255,255,255,.4);
+    border-radius: 30px;
+    padding: 8px 28px;
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+  .cover p { margin-top: 14px; opacity: .75; font-size: .9rem; }
+
+  /* ── SEÇÕES ── */
+  .section {
+    max-width: 1100px;
+    margin: 48px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    overflow: hidden;
+  }
+  .section-header {
+    background: linear-gradient(90deg, #1E5FA8, #2E9CCA);
+    color: white;
+    padding: 20px 30px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-header .num {
+    background: rgba(255,255,255,.2);
+    border-radius: 50%;
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .section-body { padding: 30px; }
+  .section-desc { color: #555; font-size: .95rem; margin-bottom: 24px; line-height: 1.6; }
+
+  /* ── SITEMAP ── */
+  .sitemap { display: flex; gap: 0; overflow-x: auto; padding-bottom: 8px; }
+  .sitemap-tree { display: flex; flex-direction: column; align-items: center; min-width: 100%; }
+
+  .sm-root {
+    background: #1E5FA8;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 14px 36px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(30,95,168,.3);
+  }
+
+  .sm-level1-wrap {
+    display: flex;
+    gap: 16px;
+    margin-top: 0;
+    position: relative;
+    padding-top: 28px;
+  }
+  .sm-level1-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; right: 50%;
+    width: 2px; height: 28px;
+    background: #2E9CCA;
+    transform: translateX(-50%);
+  }
+
+  .sm-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: relative;
+  }
+  .sm-col::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    width: 2px;
+    height: 28px;
+    background: #2E9CCA;
+    transform: translateX(-50%);
+  }
+
+  .sm-node1 {
+    background: #2E9CCA;
+    color: white;
+    font-weight: bold;
+    font-size: .88rem;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 28px;
+    min-width: 130px;
+    box-shadow: 0 2px 8px rgba(46,156,202,.25);
+  }
+
+  .sm-children {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  .sm-node2 {
+    background: #E8F4FB;
+    color: #1E5FA8;
+    font-size: .8rem;
+    padding: 7px 12px;
+    border-radius: 5px;
+    border-left: 3px solid #2E9CCA;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  /* horizontal connector for level 1 */
+  .sm-h-connector {
+    position: absolute;
+    top: 28px;
+    height: 2px;
+    background: #2E9CCA;
+    z-index: 0;
+  }
+
+  /* ── WIREFRAME ── */
+  .wf-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .wf-tab {
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: 2px solid #2E9CCA;
+    color: #2E9CCA;
+    font-size: .88rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all .2s;
+    background: white;
+  }
+  .wf-tab.active, .wf-tab:hover { background: #2E9CCA; color: white; }
+
+  .wf-screen { display: none; }
+  .wf-screen.active { display: block; }
+
+  .wf-wrapper {
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,.1);
+    font-size: .82rem;
+  }
+
+  /* Navbar */
+  .wf-nav {
+    background: #1E5FA8;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    gap: 12px;
+  }
+  .wf-nav .logo { font-weight: bold; font-size: 1rem; }
+  .wf-nav .nav-links { display: flex; gap: 16px; font-size: .8rem; opacity: .9; }
+  .wf-nav .nav-btn {
+    background: white;
+    color: #1E5FA8;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 14px;
+    font-size: .78rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .wf-nav .a11y { display: flex; gap: 8px; opacity: .8; font-size: .75rem; }
+
+  /* Hero */
+  .wf-hero {
+    background: linear-gradient(135deg, #E8F4FB, #fff);
+    padding: 28px 24px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .wf-hero h2 { color: #1E5FA8; font-size: 1.2rem; margin-bottom: 6px; }
+  .wf-hero p { color: #555; font-size: .82rem; margin-bottom: 16px; }
+  .wf-search-bar {
+    display: flex;
+    gap: 8px;
+    background: white;
+    border: 2px solid #2E9CCA;
+    border-radius: 8px;
+    padding: 8px 12px;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .wf-search-bar input {
+    border: none; outline: none; flex: 1;
+    font-size: .82rem;
+    background: transparent;
+    color: #333;
+  }
+  .wf-search-bar .btn-search {
+    background: #1E5FA8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 14px;
+    font-size: .78rem;
+    cursor: pointer;
+  }
+  .wf-filters { display: flex; gap: 10px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+  .wf-tag {
+    background: white;
+    border: 1px solid #2E9CCA;
+    color: #2E9CCA;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: .75rem;
+  }
+
+  /* Seções genéricas do wireframe */
+  .wf-section { padding: 20px 24px; border-bottom: 1px solid #f0f0f0; }
+  .wf-section-title {
+    font-weight: bold;
+    font-size: .9rem;
+    color: #1E5FA8;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .wf-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+  }
+
+  /* Cards de vagas */
+  .wf-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .wf-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 14px;
+    background: white;
+    border-left: 4px solid #2E9CCA;
+  }
+  .wf-card .card-title { font-weight: bold; font-size: .85rem; color: #1E5FA8; margin-bottom: 4px; }
+  .wf-card .card-company { color: #555; font-size: .78rem; margin-bottom: 6px; }
+  .wf-card .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .wf-card .card-tag-a11y {
+    background: #E8F4FB;
+    color: #1E5FA8;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: .7rem;
+    border: 1px solid #2E9CCA;
+  }
+  .wf-card .card-tag-normal {
+    background: #f5f5f5;
+    color: #555;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: .7rem;
+  }
+  .wf-card .card-btn {
+    background: #1E5FA8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: .75rem;
+    cursor: pointer;
+    width: 100%;
+  }
+  .wf-card .selo { color: #F57F17; font-size: .72rem; font-weight: bold; }
+
+  /* Layout com sidebar */
+  .wf-layout { display: flex; gap: 0; }
+  .wf-sidebar {
+    width: 200px;
+    min-width: 200px;
+    background: #f8fafc;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px;
+  }
+  .wf-main-area { flex: 1; padding: 16px; }
+  .wf-sidebar h4 { font-size: .82rem; color: #1E5FA8; margin-bottom: 10px; font-weight: bold; }
+  .wf-filter-group { margin-bottom: 14px; }
+  .wf-filter-label { font-size: .75rem; font-weight: bold; color: #333; margin-bottom: 6px; }
+  .wf-filter-item { display: flex; align-items: center; gap: 6px; font-size: .75rem; color: #444; margin-bottom: 4px; }
+  .wf-filter-item input { width: 13px; height: 13px; accent-color: #1E5FA8; }
+
+  /* Vaga detalhes */
+  .wf-job-header {
+    background: #E8F4FB;
+    border-bottom: 1px solid #c8e0f0;
+    padding: 20px 24px;
+  }
+  .wf-job-header h2 { font-size: 1.1rem; color: #1E5FA8; margin-bottom: 4px; }
+  .wf-job-header .company { font-size: .85rem; color: #555; margin-bottom: 10px; }
+  .wf-job-header .meta { display: flex; gap: 16px; font-size: .78rem; color: #666; flex-wrap: wrap; }
+  .wf-a11y-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .wf-a11y-badge {
+    background: #1E5FA8;
+    color: white;
+    border-radius: 14px;
+    padding: 3px 10px;
+    font-size: .72rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .wf-apply-btn {
+    background: #1E5FA8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 28px;
+    font-size: .9rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+    width: 100%;
+  }
+
+  /* Perfil */
+  .wf-profile-wrap { display: flex; gap: 0; }
+  .wf-profile-sidebar {
+    width: 180px;
+    background: #1E5FA8;
+    color: white;
+    padding: 16px;
+  }
+  .wf-profile-sidebar .avatar {
+    width: 60px; height: 60px;
+    background: rgba(255,255,255,.2);
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+  .wf-profile-sidebar .name { text-align: center; font-size: .82rem; font-weight: bold; margin-bottom: 4px; }
+  .wf-profile-sidebar .role { text-align: center; font-size: .72rem; opacity: .7; margin-bottom: 16px; }
+  .wf-profile-nav { display: flex; flex-direction: column; gap: 4px; }
+  .wf-profile-nav a {
+    display: block;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-size: .78rem;
+    color: rgba(255,255,255,.8);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .wf-profile-nav a.active { background: rgba(255,255,255,.2); color: white; font-weight: bold; }
+  .wf-profile-main { flex: 1; padding: 16px; background: #f8fafc; }
+  .wf-status-card {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .wf-status-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .wf-status-dot.analise { background: #F57F17; }
+  .wf-status-dot.ok { background: #2E7D32; }
+  .wf-status-dot.neg { background: #C62828; }
+
+  /* Footer wireframe */
+  .wf-footer {
+    background: #1E5FA8;
+    color: rgba(255,255,255,.7);
+    text-align: center;
+    padding: 12px;
+    font-size: .75rem;
+  }
+
+  /* Label anotação */
+  .wf-annotation {
+    display: inline-block;
+    background: #FFF8E1;
+    border: 1px dashed #F57F17;
+    color: #E65100;
+    font-size: .7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 6px;
+  }
+
+  /* Numeração de tela */
+  .screen-label {
+    text-align: center;
+    font-size: .8rem;
+    color: #888;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  @media print {
+    .wf-tabs { display: none; }
+    .wf-screen { display: block !important; page-break-inside: avoid; margin-bottom: 40px; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <div style="font-size:3rem; margin-bottom:16px;">♿</div>
+  <h1>AcessJob</h1>
+  <h2>Plataforma de Emprego Inclusivo para Pessoas com Deficiência</h2>
+  <div class="badge">Desafio IHC — Etapa 2: Arquitetura da Informação</div>
+  <p>UNISINOS — Análise e Desenvolvimento de Sistemas | Março de 2026</p>
+  <p style="margin-top:8px; opacity:.6;">Aluno: Henrike</p>
+</div>
+
+<!-- SITEMAP -->
+<div class="section">
+  <div class="section-header">
+    <div class="num">2.1</div>
+    Sitemap — Estrutura de Navegação do AcessJob
+  </div>
+  <div class="section-body">
+    <p class="section-desc">
+      O sitemap representa a organização hierárquica de todas as páginas e seções do AcessJob.
+      A estrutura foi desenhada para garantir acesso rápido às funcionalidades principais —
+      busca de vagas e candidatura — com seções dedicadas tanto ao candidato PcD quanto às empresas parceiras.
+    </p>
+
+    <div style="overflow-x:auto; padding-bottom:16px;">
+    <div class="sitemap-tree" style="min-width:900px; padding: 20px 0;">
+
+      <!-- Raiz -->
+      <div class="sm-root">🏠 AcessJob (Home)</div>
+
+      <!-- Conector vertical -->
+      <div style="width:2px; height:28px; background:#2E9CCA; margin:0 auto;"></div>
+
+      <!-- Linha horizontal -->
+      <div style="position:relative; width:100%; display:flex; justify-content:center;">
+        <div style="position:absolute; top:0; left:12%; right:12%; height:2px; background:#2E9CCA;"></div>
+      </div>
+
+      <!-- Level 1 -->
+      <div style="display:flex; gap:0; width:100%; justify-content:space-around; margin-top:0;">
+
+        <!-- Buscar Vagas -->
+        <div class="sm-col" style="width:18%;">
+          <div class="sm-node1">🔍 Buscar Vagas</div>
+          <div class="sm-children">
+            <div class="sm-node2">Filtros avançados</div>
+            <div class="sm-node2">Resultados</div>
+            <div class="sm-node2">Detalhes da Vaga</div>
+          </div>
+        </div>
+
+        <!-- Cadastro/Login -->
+        <div class="sm-col" style="width:16%;">
+          <div class="sm-node1">👤 Cadastro / Login</div>
+          <div class="sm-children">
+            <div class="sm-node2">Para Candidatos</div>
+            <div class="sm-node2">Para Empresas</div>
+          </div>
+        </div>
+
+        <!-- Meu Perfil -->
+        <div class="sm-col" style="width:18%;">
+          <div class="sm-node1">📋 Meu Perfil</div>
+          <div class="sm-children">
+            <div class="sm-node2">Dados Pessoais</div>
+            <div class="sm-node2">Currículo Acessível</div>
+            <div class="sm-node2">Candidaturas</div>
+            <div class="sm-node2">Notificações</div>
+          </div>
+        </div>
+
+        <!-- Área Empresa -->
+        <div class="sm-col" style="width:18%;">
+          <div class="sm-node1">🏢 Área da Empresa</div>
+          <div class="sm-children">
+            <div class="sm-node2">Publicar Vaga</div>
+            <div class="sm-node2">Gestão de Candidatos</div>
+            <div class="sm-node2">Certificação Inclusiva</div>
+          </div>
+        </div>
+
+        <!-- Central de Apoio -->
+        <div class="sm-col" style="width:18%;">
+          <div class="sm-node1">💬 Central de Apoio</div>
+          <div class="sm-children">
+            <div class="sm-node2">Direitos da PcD</div>
+            <div class="sm-node2">Dicas de Entrevista</div>
+            <div class="sm-node2">Comunidade</div>
+          </div>
+        </div>
+
+        <!-- Sobre -->
+        <div class="sm-col" style="width:10%;">
+          <div class="sm-node1">ℹ️ Sobre</div>
+          <div class="sm-children">
+            <div class="sm-node2">Missão</div>
+            <div class="sm-node2">Contato</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+
+    <!-- Legenda -->
+    <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:16px; padding-top:16px; border-top:1px solid #eee;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:20px;height:14px;background:#1E5FA8;border-radius:3px;"></div>
+        <span style="font-size:.8rem; color:#555;">Nível 0 — Raiz (Home)</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:20px;height:14px;background:#2E9CCA;border-radius:3px;"></div>
+        <span style="font-size:.8rem; color:#555;">Nível 1 — Seções principais</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:20px;height:14px;background:#E8F4FB;border:1px solid #2E9CCA;border-radius:3px;"></div>
+        <span style="font-size:.8rem; color:#555;">Nível 2 — Subpáginas</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WIREFRAME -->
+<div class="section">
+  <div class="section-header">
+    <div class="num">2.2</div>
+    Wireframe — Protótipo de Baixa Fidelidade das Telas Principais
+  </div>
+  <div class="section-body">
+    <p class="section-desc">
+      O wireframe representa a estrutura visual das principais telas do AcessJob, demonstrando o layout,
+      a hierarquia de informações e o fluxo de interação. Selecione cada tela abaixo para visualizá-la.
+    </p>
+
+    <!-- Tabs -->
+    <div class="wf-tabs">
+      <div class="wf-tab active" onclick="showScreen('home')">🏠 Tela 1: Home</div>
+      <div class="wf-tab" onclick="showScreen('busca')">🔍 Tela 2: Busca de Vagas</div>
+      <div class="wf-tab" onclick="showScreen('vaga')">📄 Tela 3: Detalhes da Vaga</div>
+      <div class="wf-tab" onclick="showScreen('perfil')">👤 Tela 4: Meu Perfil</div>
+    </div>
+
+    <!-- ── TELA 1: HOME ── -->
+    <div class="wf-screen active" id="screen-home">
+      <div class="wf-wrapper">
+        <!-- Navbar -->
+        <div class="wf-nav">
+          <div class="logo">♿ AcessJob</div>
+          <div class="nav-links">
+            <span>Buscar Vagas</span>
+            <span>Para Empresas</span>
+            <span>Apoio</span>
+          </div>
+          <div class="a11y">
+            <span>A+</span><span>☾</span><span>🔊</span><span>🤟</span>
+          </div>
+          <button class="nav-btn">Entrar</button>
+        </div>
+        <!-- Hero -->
+        <div class="wf-hero">
+          <h2>Encontre sua vaga com acessibilidade real</h2>
+          <p>Conectamos Pessoas com Deficiência a empresas genuinamente inclusivas</p>
+          <div class="wf-search-bar">
+            <input type="text" value="Ex: Designer, Comunicação, Analista..." readonly>
+            <button class="btn-search">Buscar</button>
+          </div>
+          <div class="wf-filters">
+            <span class="wf-tag">📍 Porto Alegre</span>
+            <span class="wf-tag">🦻 Def. Auditiva</span>
+            <span class="wf-tag">🏅 Selo Inclusivo</span>
+            <span class="wf-tag">💼 CLT</span>
+          </div>
+        </div>
+        <!-- Vagas em destaque -->
+        <div class="wf-section">
+          <div class="wf-section-title">⭐ Vagas em Destaque</div>
+          <div class="wf-cards">
+            <div class="wf-card">
+              <div class="card-title">Assistente de Comunicação</div>
+              <div class="card-company">🏢 TechCorp LTDA · Porto Alegre, RS</div>
+              <div class="card-tags">
+                <span class="card-tag-a11y">🦻 Libras</span>
+                <span class="card-tag-a11y">♿ Acessível</span>
+                <span class="card-tag-normal">CLT</span>
+              </div>
+              <div class="selo">🏅 Empresa com Selo Inclusivo</div>
+              <button class="card-btn" style="margin-top:8px;">Ver Vaga</button>
+            </div>
+            <div class="wf-card">
+              <div class="card-title">Analista de Marketing Digital</div>
+              <div class="card-company">🏢 Agência Conecta · Remoto</div>
+              <div class="card-tags">
+                <span class="card-tag-a11y">💻 100% Remoto</span>
+                <span class="card-tag-normal">PJ</span>
+              </div>
+              <div class="selo" style="color:#aaa;">Empresa parceira</div>
+              <button class="card-btn" style="margin-top:8px;">Ver Vaga</button>
+            </div>
+            <div class="wf-card">
+              <div class="card-title">Redatora Sênior</div>
+              <div class="card-company">🏢 Portal Notícias BR · Híbrido</div>
+              <div class="card-tags">
+                <span class="card-tag-a11y">🦻 Intérprete Libras</span>
+                <span class="card-tag-normal">CLT</span>
+              </div>
+              <div class="selo">🏅 Empresa com Selo Inclusivo</div>
+              <button class="card-btn" style="margin-top:8px;">Ver Vaga</button>
+            </div>
+            <div class="wf-card">
+              <div class="card-title">Social Media</div>
+              <div class="card-company">🏢 StartBR · Porto Alegre, RS</div>
+              <div class="card-tags">
+                <span class="card-tag-a11y">♿ Acessível</span>
+                <span class="card-tag-normal">Estágio</span>
+              </div>
+              <div class="selo" style="color:#aaa;">Empresa parceira</div>
+              <button class="card-btn" style="margin-top:8px;">Ver Vaga</button>
+            </div>
+          </div>
+        </div>
+        <!-- Empresas -->
+        <div class="wf-section" style="background:#f8fafc;">
+          <div class="wf-section-title">🏅 Empresas com Selo Inclusivo</div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <div style="background:white;border:1px solid #e0e0e0;border-radius:8px;padding:10px 20px;font-size:.8rem;color:#555;">TechCorp</div>
+            <div style="background:white;border:1px solid #e0e0e0;border-radius:8px;padding:10px 20px;font-size:.8rem;color:#555;">Inovare S.A.</div>
+            <div style="background:white;border:1px solid #e0e0e0;border-radius:8px;padding:10px 20px;font-size:.8rem;color:#555;">Portal Notícias</div>
+            <div style="background:white;border:1px solid #e0e0e0;border-radius:8px;padding:10px 20px;font-size:.8rem;color:#555;">GrupoDS</div>
+          </div>
+        </div>
+        <div class="wf-footer">© 2026 AcessJob — Inclusão que transforma</div>
+      </div>
+      <p class="screen-label">Tela 1: Home — Página inicial com busca, vagas em destaque e empresas parceiras</p>
+    </div>
+
+    <!-- ── TELA 2: BUSCA ── -->
+    <div class="wf-screen" id="screen-busca">
+      <div class="wf-wrapper">
+        <div class="wf-nav">
+          <div class="logo">♿ AcessJob</div>
+          <div class="nav-links"><span>Buscar Vagas</span><span>Para Empresas</span></div>
+          <div class="a11y"><span>A+</span><span>☾</span><span>🔊</span><span>🤟</span></div>
+          <button class="nav-btn">Entrar</button>
+        </div>
+        <div style="background:#E8F4FB; padding:14px 20px; border-bottom:1px solid #c8e0f0; display:flex; gap:10px; align-items:center;">
+          <div class="wf-search-bar" style="max-width:400px; margin:0;">
+            <input type="text" value="Comunicação" readonly>
+            <button class="btn-search">Buscar</button>
+          </div>
+          <span style="font-size:.8rem; color:#555;">127 vagas encontradas</span>
+        </div>
+        <div class="wf-layout">
+          <!-- Sidebar filtros -->
+          <div class="wf-sidebar">
+            <h4>🎛️ Filtros</h4>
+            <div class="wf-filter-group">
+              <div class="wf-filter-label">Tipo de Deficiência Suportada</div>
+              <div class="wf-filter-item"><input type="checkbox" checked> Auditiva</div>
+              <div class="wf-filter-item"><input type="checkbox"> Visual</div>
+              <div class="wf-filter-item"><input type="checkbox"> Motora</div>
+              <div class="wf-filter-item"><input type="checkbox"> Intelectual</div>
+              <div class="wf-filter-item"><input type="checkbox"> Múltipla</div>
+            </div>
+            <div class="wf-filter-group">
+              <div class="wf-filter-label">Área de Atuação</div>
+              <div class="wf-filter-item"><input type="checkbox" checked> Comunicação</div>
+              <div class="wf-filter-item"><input type="checkbox"> Marketing</div>
+              <div class="wf-filter-item"><input type="checkbox"> Tecnologia</div>
+              <div class="wf-filter-item"><input type="checkbox"> Administrativo</div>
+            </div>
+            <div class="wf-filter-group">
+              <div class="wf-filter-label">Localização</div>
+              <div class="wf-filter-item"><input type="checkbox" checked> Porto Alegre</div>
+              <div class="wf-filter-item"><input type="checkbox"> Remoto</div>
+              <div class="wf-filter-item"><input type="checkbox"> Híbrido</div>
+            </div>
+            <div class="wf-filter-group">
+              <div class="wf-filter-label">Regime</div>
+              <div class="wf-filter-item"><input type="checkbox" checked> CLT</div>
+              <div class="wf-filter-item"><input type="checkbox"> PJ</div>
+              <div class="wf-filter-item"><input type="checkbox"> Estágio</div>
+            </div>
+            <div class="wf-filter-group">
+              <div class="wf-filter-label">Certificação</div>
+              <div class="wf-filter-item"><input type="checkbox"> 🏅 Selo Inclusivo</div>
+            </div>
+          </div>
+          <!-- Resultados -->
+          <div class="wf-main-area">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <span style="font-size:.8rem; color:#555;">Ordenar por: <strong>Mais relevante</strong></span>
+              <span style="font-size:.78rem; color:#888;">Página 1 de 13</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div class="wf-card" style="border-left-color:#1E5FA8;">
+                <div style="display:flex; justify-content:space-between;">
+                  <div class="card-title">Assistente de Comunicação</div>
+                  <div class="selo">🏅 Selo Inclusivo</div>
+                </div>
+                <div class="card-company">🏢 TechCorp LTDA · Porto Alegre, RS · CLT</div>
+                <div class="card-tags">
+                  <span class="card-tag-a11y">🦻 Intérprete Libras</span>
+                  <span class="card-tag-a11y">♿ Ambiente Adaptado</span>
+                  <span class="card-tag-normal">Publicado há 2 dias</span>
+                </div>
+                <button class="card-btn">Ver Vaga</button>
+              </div>
+              <div class="wf-card">
+                <div class="card-title">Analista de Comunicação Interna</div>
+                <div class="card-company">🏢 Grupo Inclua · Remoto · CLT</div>
+                <div class="card-tags">
+                  <span class="card-tag-a11y">💻 Reuniões legendadas</span>
+                  <span class="card-tag-normal">Publicado há 5 dias</span>
+                </div>
+                <button class="card-btn">Ver Vaga</button>
+              </div>
+              <div class="wf-card">
+                <div class="card-title">Redatora de Conteúdo</div>
+                <div class="card-company">🏢 Portal Notícias BR · Híbrido · CLT</div>
+                <div class="card-tags">
+                  <span class="card-tag-a11y">🦻 Libras disponível</span>
+                  <span class="card-tag-normal">Publicado há 1 semana</span>
+                </div>
+                <button class="card-btn">Ver Vaga</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-footer">© 2026 AcessJob</div>
+      </div>
+      <p class="screen-label">Tela 2: Busca de Vagas — Filtros laterais avançados + listagem de resultados</p>
+    </div>
+
+    <!-- ── TELA 3: DETALHES DA VAGA ── -->
+    <div class="wf-screen" id="screen-vaga">
+      <div class="wf-wrapper">
+        <div class="wf-nav">
+          <div class="logo">♿ AcessJob</div>
+          <div class="nav-links"><span>← Voltar aos resultados</span></div>
+          <div class="a11y"><span>A+</span><span>☾</span><span>🔊</span><span>🤟</span></div>
+          <button class="nav-btn">Entrar</button>
+        </div>
+        <div class="wf-job-header">
+          <h2>Assistente de Comunicação</h2>
+          <div class="company">🏢 TechCorp LTDA · <span class="selo" style="font-size:.82rem;">🏅 Empresa com Selo Inclusivo</span></div>
+          <div class="meta">
+            <span>📍 Porto Alegre, RS</span>
+            <span>💼 CLT</span>
+            <span>💰 R$ 2.800 – R$ 3.500</span>
+            <span>📅 Publicado em 26/03/2026</span>
+          </div>
+          <div style="margin-top:12px; font-size:.8rem; font-weight:bold; color:#1E5FA8;">♿ Acessibilidades oferecidas:</div>
+          <div class="wf-a11y-badges">
+            <span class="wf-a11y-badge">🦻 Intérprete de Libras</span>
+            <span class="wf-a11y-badge">🖥️ Telas adaptadas</span>
+            <span class="wf-a11y-badge">🏢 Ambiente acessível</span>
+            <span class="wf-a11y-badge">⏰ Horário flexível</span>
+          </div>
+          <button class="wf-apply-btn">Candidatar-se a esta vaga</button>
+        </div>
+        <div class="wf-section">
+          <div class="wf-section-title">Sobre a vaga</div>
+          <p style="font-size:.82rem; color:#444; line-height:1.6;">
+            A TechCorp busca uma pessoa criativa e comunicativa para integrar o time de Comunicação Corporativa.
+            Oferecemos ambiente 100% acessível, reuniões com intérprete de Libras e materiais em formatos alternativos.
+            Valorizamos a diversidade e o potencial de cada colaborador.
+          </p>
+        </div>
+        <div class="wf-section">
+          <div class="wf-section-title">Requisitos</div>
+          <div style="font-size:.82rem; color:#444; line-height:1.8;">
+            ✅ Graduação em Comunicação Social ou áreas afins<br>
+            ✅ Conhecimento em redes sociais e produção de conteúdo<br>
+            ✅ Boa comunicação escrita<br>
+            ⭐ Diferencial: conhecimento em Libras
+          </div>
+        </div>
+        <div class="wf-section">
+          <div class="wf-section-title">Vagas similares</div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <div style="background:#f5f5f5;border-radius:6px;padding:10px 14px;font-size:.78rem;color:#333;border-left:3px solid #2E9CCA;">Analista de Com. Interna · Grupo Inclua</div>
+            <div style="background:#f5f5f5;border-radius:6px;padding:10px 14px;font-size:.78rem;color:#333;border-left:3px solid #2E9CCA;">Redatora · Portal Notícias</div>
+          </div>
+        </div>
+        <div class="wf-footer">© 2026 AcessJob</div>
+      </div>
+      <p class="screen-label">Tela 3: Detalhes da Vaga — Informações completas + acessibilidades + botão de candidatura</p>
+    </div>
+
+    <!-- ── TELA 4: MEU PERFIL ── -->
+    <div class="wf-screen" id="screen-perfil">
+      <div class="wf-wrapper">
+        <div class="wf-nav">
+          <div class="logo">♿ AcessJob</div>
+          <div class="nav-links"><span>Dashboard</span></div>
+          <div class="a11y"><span>A+</span><span>☾</span><span>🔊</span><span>🤟</span></div>
+          <button class="nav-btn" style="background:#E8F4FB; color:#1E5FA8;">Marina ▼</button>
+        </div>
+        <div class="wf-profile-wrap">
+          <!-- Sidebar perfil -->
+          <div class="wf-profile-sidebar">
+            <div class="avatar">👤</div>
+            <div class="name">Marina Costa</div>
+            <div class="role">Comunicação Social</div>
+            <nav class="wf-profile-nav">
+              <a class="active">📋 Meu Perfil</a>
+              <a>📄 Currículo</a>
+              <a>📬 Candidaturas</a>
+              <a>🔔 Notificações</a>
+              <a>⚙️ Configurações</a>
+            </nav>
+          </div>
+          <!-- Main -->
+          <div class="wf-profile-main">
+            <!-- Perfil completo -->
+            <div style="background:white;border-radius:8px;border:1px solid #e0e0e0;padding:14px;margin-bottom:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span style="font-weight:bold; font-size:.85rem; color:#1E5FA8;">Perfil</span>
+                <span style="font-size:.75rem; color:#2E7D32; font-weight:bold;">● 75% completo</span>
+              </div>
+              <div style="background:#e0e0e0;border-radius:10px;height:8px;overflow:hidden;">
+                <div style="background:#2E7D32;width:75%;height:100%;border-radius:10px;"></div>
+              </div>
+              <p style="font-size:.75rem;color:#888;margin-top:6px;">Complete seu perfil adicionando um vídeo de apresentação em Libras</p>
+            </div>
+            <!-- Status candidaturas -->
+            <div style="font-size:.85rem; font-weight:bold; color:#1E5FA8; margin-bottom:10px;">📬 Minhas Candidaturas</div>
+            <div class="wf-status-card">
+              <div class="wf-status-dot analise"></div>
+              <div>
+                <div style="font-size:.82rem; font-weight:bold;">Assistente de Comunicação — TechCorp</div>
+                <div style="font-size:.75rem; color:#888;">Em análise · Candidatura enviada em 27/03/2026</div>
+              </div>
+            </div>
+            <div class="wf-status-card">
+              <div class="wf-status-dot ok"></div>
+              <div>
+                <div style="font-size:.82rem; font-weight:bold;">Social Media — StartBR</div>
+                <div style="font-size:.75rem; color:#2E7D32; font-weight:bold;">✅ Aprovado para entrevista</div>
+              </div>
+            </div>
+            <div class="wf-status-card">
+              <div class="wf-status-dot neg"></div>
+              <div>
+                <div style="font-size:.82rem; font-weight:bold;">Redatora — Agência Alfa</div>
+                <div style="font-size:.75rem; color:#C62828;">❌ Não selecionada nesta etapa</div>
+              </div>
+            </div>
+            <!-- Vagas recomendadas -->
+            <div style="font-size:.85rem; font-weight:bold; color:#1E5FA8; margin:14px 0 8px;">⭐ Vagas recomendadas para você</div>
+            <div style="background:#E8F4FB;border-radius:6px;padding:10px 14px;font-size:.8rem;color:#333;margin-bottom:6px;border-left:3px solid #2E9CCA;">
+              Analista de Com. Interna · Grupo Inclua · 🦻 Libras
+            </div>
+            <div style="background:#E8F4FB;border-radius:6px;padding:10px 14px;font-size:.8rem;color:#333;border-left:3px solid #2E9CCA;">
+              Redatora Sênior · Portal Notícias · 🏅 Selo Inclusivo
+            </div>
+          </div>
+        </div>
+        <div class="wf-footer">© 2026 AcessJob</div>
+      </div>
+      <p class="screen-label">Tela 4: Meu Perfil — Dashboard do candidato com candidaturas e vagas recomendadas</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- Rodapé -->
+<div style="text-align:center; padding:30px; color:#888; font-size:.8rem;">
+  AcessJob — Desafio IHC | UNISINOS 2026 | Aluno: Henrike
+</div>
+
+<script>
+function showScreen(name) {
+  document.querySelectorAll('.wf-screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.wf-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
